@@ -1,0 +1,424 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Digital Product Store
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+  <style>
+   body {
+      font-family: 'Montserrat', sans-serif;
+      scroll-behavior: smooth;
+      background: transparent;
+    }
+    /* Blur overlay for premium UI */
+    .blur-overlay {
+      backdrop-filter: blur(15px);
+      background-color: rgba(255, 255, 255, 0.1);
+      -webkit-backdrop-filter: blur(15px);
+    }
+    /* Smooth fade transition for page content */
+    .fade-enter {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    .fade-enter-active {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .fade-exit {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-exit-active {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    /* Hide scrollbar for slider */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    /* Parallax effect for background video */
+    #bg-video {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      min-width: 100vw;
+      min-height: 100vh;
+      width: auto;
+      height: auto;
+      z-index: -10;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      filter: brightness(0.5);
+      will-change: transform;
+      transition: transform 0.3s ease-out;
+    }
+  </style>
+ </head>
+ <body class="relative text-gray-100 selection:bg-indigo-600 selection:text-white">
+  <!-- Background Video -->
+  <video autoplay="" id="bg-video" loop="" muted="" playsinline="" src="https://cdn.videvo.net/videvo_files/video/free/2019-07/small_watermarked/190705_01_Drone_4k_011_preview.webm" type="video/webm">
+  </video>
+  <!-- Background Music Controls -->
+  <audio autoplay="" id="bg-music" loop="">
+   <source src="https://cdn.pixabay.com/download/audio/2022/03/24/audio_0a7a3a3a3a.mp3?filename=relaxing-ambient-11243.mp3" type="audio/mpeg"/>
+   Your browser does not support the audio element.
+  </audio>
+  <button aria-label="Toggle background music" class="fixed top-4 right-4 z-50 bg-indigo-700 bg-opacity-50 hover:bg-opacity-80 text-white p-3 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400" id="music-toggle" title="Toggle background music">
+   <i class="fas fa-music">
+   </i>
+  </button>
+  <div class="min-h-screen flex flex-col relative z-10" id="app" role="main">
+   <!-- Header -->
+   <header class="w-full blur-overlay backdrop-blur-lg bg-white/10 border-b border-white/20 sticky top-0 z-40" role="banner">
+    <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 flex items-center justify-between h-20">
+     <a aria-label="Digital Product Store Home" class="text-3xl font-bold tracking-wide text-indigo-300 hover:text-indigo-400 transition-colors" href="#">
+      DigiStore
+     </a>
+     <nav aria-label="Primary Navigation" class="hidden md:flex space-x-8">
+      <button class="nav-link text-lg font-semibold text-indigo-200 hover:text-indigo-400 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-400 rounded" data-product="ebook">
+       Ebook
+      </button>
+      <button class="nav-link text-lg font-semibold text-indigo-200 hover:text-indigo-400 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-400 rounded" data-product="script">
+       Script
+      </button>
+      <button class="nav-link text-lg font-semibold text-indigo-200 hover:text-indigo-400 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-400 rounded" data-product="apk">
+       APK
+      </button>
+      <button class="nav-link text-lg font-semibold text-indigo-200 hover:text-indigo-400 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-400 rounded" data-product="website">
+       Website
+      </button>
+     </nav>
+     <button aria-expanded="false" aria-label="Toggle menu" class="md:hidden text-indigo-300 hover:text-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-400" id="mobile-menu-button">
+      <i class="fas fa-bars fa-lg">
+      </i>
+     </button>
+    </div>
+    <!-- Mobile menu -->
+    <nav aria-label="Mobile Navigation" class="hidden md:hidden bg-white/10 backdrop-blur-lg border-t border-white/20" id="mobile-menu">
+     <div class="flex flex-col space-y-2 px-6 py-4">
+      <button class="nav-link-mobile text-indigo-200 hover:text-indigo-400 text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-400 rounded text-left" data-product="ebook">
+       Ebook
+      </button>
+      <button class="nav-link-mobile text-indigo-200 hover:text-indigo-400 text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-400 rounded text-left" data-product="script">
+       Script
+      </button>
+      <button class="nav-link-mobile text-indigo-200 hover:text-indigo-400 text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-400 rounded text-left" data-product="apk">
+       APK
+      </button>
+      <button class="nav-link-mobile text-indigo-200 hover:text-indigo-400 text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-400 rounded text-left" data-product="website">
+       Website
+      </button>
+     </div>
+    </nav>
+   </header>
+   <!-- Promo Slider Section -->
+   <section aria-label="Promotional Slider" class="relative max-w-7xl mx-auto mt-8 px-6 sm:px-8 lg:px-12">
+    <div class="overflow-hidden rounded-xl shadow-lg relative" id="promo-slider">
+     <div class="flex transition-transform duration-700 ease-in-out will-change-transform" id="promo-slider-track" style="transform: translateX(0%)">
+      <img alt="Promo 1: Digital Ebook cover with modern design and abstract background in blue and purple hues" class="w-full flex-shrink-0 aspect-video object-cover rounded-xl" height="720" loading="lazy" src="https://storage.googleapis.com/a1aa/image/95cbcb86-9c0b-4238-be08-e51749caae5a.jpg" width="1280"/>
+      <img alt="Promo 2: Script code screenshot with dark theme and colorful syntax highlighting on a computer screen" class="w-full flex-shrink-0 aspect-video object-cover rounded-xl" height="720" loading="lazy" src="https://storage.googleapis.com/a1aa/image/3b4d7fea-91e4-44bb-874f-f1b68414d4bf.jpg" width="1280"/>
+      <img alt="Promo 3: Mobile APK app interface showing modern UI design with blue accent colors on a smartphone" class="w-full flex-shrink-0 aspect-video object-cover rounded-xl" height="720" loading="lazy" src="https://storage.googleapis.com/a1aa/image/0aea05b7-d207-47c5-5291-bbb8226bc8a4.jpg" width="1280"/>
+      <img alt="Promo 4: Website landing page design with clean and professional layout featuring white and indigo colors" class="w-full flex-shrink-0 aspect-video object-cover rounded-xl" height="720" loading="lazy" src="https://storage.googleapis.com/a1aa/image/d9f0c948-0fcb-4a61-7ba6-70599c747712.jpg" width="1280"/>
+     </div>
+     <button aria-label="Previous slide" class="absolute top-1/2 left-4 -translate-y-1/2 bg-indigo-700 bg-opacity-50 hover:bg-opacity-80 text-white p-3 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400" id="prev-slide">
+      <i class="fas fa-chevron-left">
+      </i>
+     </button>
+     <button aria-label="Next slide" class="absolute top-1/2 right-4 -translate-y-1/2 bg-indigo-700 bg-opacity-50 hover:bg-opacity-80 text-white p-3 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-400" id="next-slide">
+      <i class="fas fa-chevron-right">
+      </i>
+     </button>
+    </div>
+   </section>
+   <!-- Product Selection Section -->
+   <section aria-label="Product Selection" class="max-w-7xl mx-auto mt-12 px-6 sm:px-8 lg:px-12">
+    <h2 class="text-3xl font-bold text-indigo-300 mb-8 text-center">
+     Pilih Produk Digital Anda
+    </h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8" role="list">
+     <button aria-label="Pilih produk Ebook" class="product-card group relative rounded-xl blur-overlay border border-white/20 p-6 flex flex-col items-center justify-center cursor-pointer focus:outline-none focus:ring-4 focus:ring-indigo-400 transition-transform hover:scale-105" data-product="ebook">
+      <img alt="Ebook cover with modern abstract design in blue and purple colors" class="w-full rounded-lg mb-4 object-cover aspect-[3/2]" height="200" loading="lazy" src="https://storage.googleapis.com/a1aa/image/288ba2e0-a18c-4a91-5c4f-77e88fcd4450.jpg" width="300"/>
+      <h3 class="text-xl font-semibold text-indigo-200 group-hover:text-indigo-400 transition-colors">
+       Ebook
+      </h3>
+     </button>
+     <button aria-label="Pilih produk Script" class="product-card group relative rounded-xl blur-overlay border border-white/20 p-6 flex flex-col items-center justify-center cursor-pointer focus:outline-none focus:ring-4 focus:ring-indigo-400 transition-transform hover:scale-105" data-product="script">
+      <img alt="Script code screenshot with dark theme and colorful syntax highlighting" class="w-full rounded-lg mb-4 object-cover aspect-[3/2]" height="200" loading="lazy" src="https://storage.googleapis.com/a1aa/image/95603d85-0281-4d8c-25c3-927a8af6c616.jpg" width="300"/>
+      <h3 class="text-xl font-semibold text-indigo-200 group-hover:text-indigo-400 transition-colors">
+       Script
+      </h3>
+     </button>
+     <button aria-label="Pilih produk APK" class="product-card group relative rounded-xl blur-overlay border border-white/20 p-6 flex flex-col items-center justify-center cursor-pointer focus:outline-none focus:ring-4 focus:ring-indigo-400 transition-transform hover:scale-105" data-product="apk">
+      <img alt="Mobile APK app interface with modern UI design and blue accent colors" class="w-full rounded-lg mb-4 object-cover aspect-[3/2]" height="200" loading="lazy" src="https://storage.googleapis.com/a1aa/image/338950d8-cacf-4bce-8e79-3b1b697edf75.jpg" width="300"/>
+      <h3 class="text-xl font-semibold text-indigo-200 group-hover:text-indigo-400 transition-colors">
+       APK
+      </h3>
+     </button>
+     <button aria-label="Pilih produk Website" class="product-card group relative rounded-xl blur-overlay border border-white/20 p-6 flex flex-col items-center justify-center cursor-pointer focus:outline-none focus:ring-4 focus:ring-indigo-400 transition-transform hover:scale-105" data-product="website">
+      <img alt="Website landing page design with clean and professional layout in white and indigo colors" class="w-full rounded-lg mb-4 object-cover aspect-[3/2]" height="200" loading="lazy" src="https://storage.googleapis.com/a1aa/image/7eb05dc6-ddef-4fac-67ed-6f0d4a9d4c21.jpg" width="300"/>
+      <h3 class="text-xl font-semibold text-indigo-200 group-hover:text-indigo-400 transition-colors">
+       Website
+      </h3>
+     </button>
+    </div>
+   </section>
+   <!-- Product Detail Section -->
+   <section aria-label="Product Detail" class="max-w-4xl mx-auto mt-16 px-6 sm:px-8 lg:px-12 hidden" id="product-detail">
+    <div class="blur-overlay rounded-2xl border border-white/20 p-8 shadow-lg backdrop-blur-lg">
+     <button aria-label="Kembali ke pilihan produk" class="mb-6 text-indigo-300 hover:text-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 rounded inline-flex items-center" id="back-to-products">
+      <i class="fas fa-arrow-left mr-2">
+      </i>
+      Kembali
+     </button>
+     <h3 class="text-4xl font-extrabold text-indigo-300 mb-6" id="product-title" tabindex="0">
+      Produk
+     </h3>
+     <img alt="" class="w-full rounded-xl mb-8 object-cover aspect-[16/9]" id="product-image" loading="lazy" src=""/>
+     <p class="text-indigo-200 text-lg leading-relaxed mb-6" id="product-description" tabindex="0">
+      Deskripsi produk akan muncul di sini.
+     </p>
+     <div class="flex items-center justify-between">
+      <span class="text-3xl font-bold text-indigo-400" id="product-price" tabindex="0">
+       Rp0
+      </span>
+      <a aria-label="Beli produk" class="inline-block bg-indigo-600 hover:bg-indigo-700 focus:bg-indigo-700 text-white font-semibold py-3 px-8 rounded-lg shadow-lg transition-colors focus:outline-none focus:ring-4 focus:ring-indigo-400" href="#" id="buy-button" rel="noopener noreferrer" target="_blank">
+       Buy
+      </a>
+     </div>
+    </div>
+   </section>
+   <footer aria-label="Footer" class="mt-20 mb-12 text-center text-indigo-400 text-sm select-none">
+    © 2024 DigiStore. All rights reserved.
+   </footer>
+  </div>
+  <script>
+   (() => {
+      'use strict';
+
+      // Elements
+      const promoSliderTrack = document.getElementById('promo-slider-track');
+      const prevSlideBtn = document.getElementById('prev-slide');
+      const nextSlideBtn = document.getElementById('next-slide');
+      const slidesCount = promoSliderTrack.children.length;
+      let currentSlide = 0;
+      let slideInterval;
+
+      // Slide width in percentage (100% per slide)
+      const slideWidthPercent = 100;
+
+      // Move to slide function
+      function goToSlide(index) {
+        if (index < 0) index = slidesCount - 1;
+        if (index >= slidesCount) index = 0;
+        currentSlide = index;
+        promoSliderTrack.style.transform = `translateX(-${slideWidthPercent * currentSlide}%)`;
+      }
+
+      // Auto slide function
+      function startAutoSlide() {
+        slideInterval = setInterval(() => {
+          goToSlide(currentSlide + 1);
+        }, 5000);
+      }
+
+      function stopAutoSlide() {
+        clearInterval(slideInterval);
+      }
+
+      prevSlideBtn.addEventListener('click', () => {
+        stopAutoSlide();
+        goToSlide(currentSlide - 1);
+        startAutoSlide();
+      });
+
+      nextSlideBtn.addEventListener('click', () => {
+        stopAutoSlide();
+        goToSlide(currentSlide + 1);
+        startAutoSlide();
+      });
+
+      // Initialize slider
+      goToSlide(0);
+      startAutoSlide();
+
+      // Mobile menu toggle
+      const mobileMenuBtn = document.getElementById('mobile-menu-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+      mobileMenuBtn.addEventListener('click', () => {
+        const expanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
+        mobileMenuBtn.setAttribute('aria-expanded', !expanded);
+        mobileMenu.classList.toggle('hidden');
+      });
+
+      // Product data
+      const products = {
+        ebook: {
+          title: 'Ebook Premium: Panduan Lengkap Digital Marketing',
+          description:
+            'Ebook ini memberikan panduan lengkap dan praktis tentang digital marketing, mulai dari strategi, tools, hingga tips sukses yang dapat langsung Anda terapkan.',
+          price: 'Rp150.000',
+          image:
+            'https://placehold.co/1280x720/png?text=Ebook+Cover+Premium+Digital+Marketing+with+modern+blue+and+purple+abstract+design',
+          buyLink: 'https://example.com/buy/ebook',
+        },
+        script: {
+          title: 'Script Otomatisasi Python untuk Bisnis',
+          description:
+            'Script Python ini membantu Anda mengotomatisasi berbagai tugas bisnis seperti pengolahan data, pengiriman email, dan integrasi API dengan mudah dan efisien.',
+          price: 'Rp200.000',
+          image:
+            'https://placehold.co/1280x720/png?text=Script+Python+Code+Screenshot+with+dark+theme+and+colorful+syntax',
+          buyLink: 'https://example.com/buy/script',
+        },
+        apk: {
+          title: 'APK Aplikasi Mobile Manajemen Keuangan',
+          description:
+            'Aplikasi mobile ini membantu Anda mengelola keuangan pribadi dengan fitur lengkap seperti pencatatan pengeluaran, laporan, dan pengingat tagihan.',
+          price: 'Rp250.000',
+          image:
+            'https://placehold.co/1280x720/png?text=Mobile+APK+App+Interface+Modern+UI+Design+Blue+Accent',
+          buyLink: 'https://example.com/buy/apk',
+        },
+        website: {
+          title: 'Website Template Profesional untuk Bisnis',
+          description:
+            'Template website ini dirancang khusus untuk bisnis dengan tampilan profesional, responsif, dan mudah disesuaikan sesuai kebutuhan Anda.',
+          price: 'Rp300.000',
+          image:
+            'https://placehold.co/1280x720/png?text=Website+Landing+Page+Professional+Clean+Layout+Indigo+Theme',
+          buyLink: 'https://example.com/buy/website',
+        },
+      };
+
+      // Elements for product detail
+      const productDetailSection = document.getElementById('product-detail');
+      const productTitle = document.getElementById('product-title');
+      const productDescription = document.getElementById('product-description');
+      const productPrice = document.getElementById('product-price');
+      const productImage = document.getElementById('product-image');
+      const buyButton = document.getElementById('buy-button');
+      const backToProductsBtn = document.getElementById('back-to-products');
+      const productCards = document.querySelectorAll('.product-card');
+      const navLinks = document.querySelectorAll('.nav-link, .nav-link-mobile');
+
+      // Show product detail
+      function showProductDetail(productKey) {
+        const product = products[productKey];
+        if (!product) return;
+
+        productTitle.textContent = product.title;
+        productDescription.textContent = product.description;
+        productPrice.textContent = product.price;
+        productImage.src = product.image;
+        productImage.alt = product.title + ' image';
+        buyButton.href = product.buyLink;
+
+        // Hide product selection and show detail
+        document.querySelector('section[aria-label="Product Selection"]').classList.add('hidden');
+        productDetailSection.classList.remove('hidden');
+
+        // Scroll to product detail smoothly
+        productDetailSection.scrollIntoView({ behavior: 'smooth' });
+      }
+
+      // Back to product selection
+      backToProductsBtn.addEventListener('click', () => {
+        productDetailSection.classList.add('hidden');
+        document.querySelector('section[aria-label="Product Selection"]').classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      // Add event listeners to product cards
+      productCards.forEach((card) => {
+        card.addEventListener('click', () => {
+          const productKey = card.getAttribute('data-product');
+          showProductDetail(productKey);
+          // Close mobile menu if open
+          if (!mobileMenu.classList.contains('hidden')) {
+            mobileMenu.classList.add('hidden');
+            mobileMenuBtn.setAttribute('aria-expanded', false);
+          }
+        });
+      });
+
+      // Add event listeners to nav links
+      navLinks.forEach((link) => {
+        link.addEventListener('click', (e) => {
+          const productKey = e.currentTarget.getAttribute('data-product');
+          showProductDetail(productKey);
+          // Close mobile menu if open
+          if (!mobileMenu.classList.contains('hidden')) {
+            mobileMenu.classList.add('hidden');
+            mobileMenuBtn.setAttribute('aria-expanded', false);
+          }
+        });
+      });
+
+      // Background music toggle
+      const musicToggleBtn = document.getElementById('music-toggle');
+      const bgMusic = document.getElementById('bg-music');
+      let musicPlaying = true;
+
+      musicToggleBtn.addEventListener('click', () => {
+        if (musicPlaying) {
+          bgMusic.pause();
+          musicToggleBtn.innerHTML = '<i class="fas fa-music-slash"></i>';
+          musicToggleBtn.setAttribute('aria-label', 'Play background music');
+          musicPlaying = false;
+        } else {
+          bgMusic.play();
+          musicToggleBtn.innerHTML = '<i class="fas fa-music"></i>';
+          musicToggleBtn.setAttribute('aria-label', 'Pause background music');
+          musicPlaying = true;
+        }
+      });
+
+      // Parallax effect for background video on scroll
+      window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY;
+        const video = document.getElementById('bg-video');
+        // Move video slower than scroll for parallax effect
+        video.style.transform = `translate(-50%, calc(-50% + ${scrollY * 0.3}px)) scale(1.05)`;
+      });
+
+      // Accessibility: trap focus inside product detail when visible
+      productDetailSection.addEventListener('keydown', (e) => {
+        if (e.key === 'Tab') {
+          const focusableElements = productDetailSection.querySelectorAll(
+            'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+          );
+          const firstElement = focusableElements[0];
+          const lastElement = focusableElements[focusableElements.length - 1];
+
+          if (e.shiftKey) {
+            if (document.activeElement === firstElement) {
+              e.preventDefault();
+              lastElement.focus();
+            }
+          } else {
+            if (document.activeElement === lastElement) {
+              e.preventDefault();
+              firstElement.focus();
+            }
+          }
+        }
+        if (e.key === 'Escape') {
+          backToProductsBtn.click();
+        }
+      });
+    })();
+  </script>
+ </body>
+</html>
